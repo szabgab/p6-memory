@@ -6,7 +6,7 @@ plan 2;
 sub get_memory() {
     # ps axuw on OSX
     # Linux same columns, thought the titles are a bit different
-    # USER               PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+    # USER               PID  %CPU %MEM      VSZ    RSS   TT  STAT beforeED      TIME COMMAND
     my @lines = QX('ps axuw').split(/\n/).map({ .split(/\s+/, 11) });
     my ($this) = @lines[1..*].grep({ $_[1] !=== Nil }).grep({ $_[1] eq $*PID });
     return({
@@ -15,22 +15,36 @@ sub get_memory() {
     });
 }
 
-my $start = get_memory();
 
 subtest {
-    ok $start<vsz>:exists;
-    ok $start<rss>:exists;
-    like $start<vsz>, rx/^\d+$/;
-    like $start<rss>, rx/^\d+$/;
+    plan 5;
+
+    my $before = get_memory();
+    ok $before<vsz>:exists;
+    ok $before<rss>:exists;
+    like $before<vsz>, rx/^\d+$/;
+    like $before<rss>, rx/^\d+$/;
+
+    my $after = get_memory();
+    my $change = $after<vsz> - $before<vsz>;
+    diag "Memory diff is $change";
+    ok  $change < 1161000, "Memory grows by less than ..." or diag "Memory diff is $change";
+    # Memory diff is 56164 on This is Rakudo version 2017.07 built on MoarVM version 2017.07 on OSX
 }
 
 
-for 0..20 {
-    my $res = get_memory();
-}
+subtest {
+    plan 1;
 
-my $end = get_memory();
-my $change = $end<vsz> - $start<vsz>;
-diag "Memory diff is $change";
-ok  $change < 1161000, "Memory grows by less than ..." or diag "Memory diff is $change";
+    my $before = get_memory();
+    for 0..20 {
+        my $res = get_memory();
+    }
+    
+    my $after = get_memory();
+    my $change = $after<vsz> - $before<vsz>;
+    diag "Memory diff is $change";
+    ok  $change < 1161000, "Memory grows by less than ..." or diag "Memory diff is $change";
+    # Memory diff is 67816 on This is Rakudo version 2017.07 built on MoarVM version 2017.07 on OSX
+}
 
