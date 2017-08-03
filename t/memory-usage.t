@@ -31,5 +31,6 @@ for 0..20 {
 
 my $end = get_memory();
 my $change = $end<vsz> - $start<vsz>;
+diag "Memory diff is $change";
 ok  $change < 1161000, "Memory grows by less than ..." or diag "Memory diff is $change";
 
