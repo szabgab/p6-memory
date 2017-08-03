@@ -1,7 +1,7 @@
 use v6;
 use Test;
 
-plan 2;
+plan 3;
 
 sub get_memory() {
     # ps axuw on OSX
@@ -28,9 +28,10 @@ subtest {
     my $after = get_memory();
     my $change = $after<vsz> - $before<vsz>;
     diag "Memory diff is $change";
-    ok  $change < 160_000, "Memory grows by less than ..." or diag "Memory diff is $change";
+    ok  $change < 377_000, "Memory grows by less than ..." or diag "Memory diff is $change";
     # Memory diff is 56164 on This is Rakudo version 2017.07 built on MoarVM version 2017.07 on OSX
     # On Travis-CI 155,724
+    # On Travis-CI 376,920  (another run)
 }
 
 
@@ -49,4 +50,22 @@ subtest {
     # Memory diff is 67816 on This is Rakudo version 2017.07 built on MoarVM version 2017.07 on OSX
     # On Travis-CI 636,524
 }
+
+subtest {
+    plan 1;
+
+    my $before = get_memory();
+    for 0..2000 {
+        "abc 23 xy" ~~ /(\d+)/;
+    }
+    my $after = get_memory();
+    my $change = $after<vsz> - $before<vsz>;
+    diag "Memory diff is $change";
+    ok  $change < 8_500, "Memory grows by less than ..." or diag "Memory diff is $change";
+    # Memory diff is 8,440 on This is Rakudo version 2017.07 built on MoarVM version 2017.07 on OSX
+    # Subsequent runs showed much lower memory change
+    # Without the capturing () it only grew by 224 bytes
+    # On Travis-CI 
+}
+
 
