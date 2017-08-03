@@ -28,8 +28,9 @@ subtest {
     my $after = get_memory();
     my $change = $after<vsz> - $before<vsz>;
     diag "Memory diff is $change";
-    ok  $change < 1161000, "Memory grows by less than ..." or diag "Memory diff is $change";
+    ok  $change < 160_000, "Memory grows by less than ..." or diag "Memory diff is $change";
     # Memory diff is 56164 on This is Rakudo version 2017.07 built on MoarVM version 2017.07 on OSX
+    # On Travis-CI 155,724
 }
 
 
@@ -44,7 +45,8 @@ subtest {
     my $after = get_memory();
     my $change = $after<vsz> - $before<vsz>;
     diag "Memory diff is $change";
-    ok  $change < 1161000, "Memory grows by less than ..." or diag "Memory diff is $change";
+    ok  $change < 700_000, "Memory grows by less than ..." or diag "Memory diff is $change";
     # Memory diff is 67816 on This is Rakudo version 2017.07 built on MoarVM version 2017.07 on OSX
+    # On Travis-CI 636,524
 }
 
