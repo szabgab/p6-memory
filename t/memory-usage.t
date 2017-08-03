@@ -49,6 +49,7 @@ subtest {
     ok  $change < 700_000, "Memory grows by less than ..." or diag "Memory diff is $change";
     # Memory diff is 67816 on This is Rakudo version 2017.07 built on MoarVM version 2017.07 on OSX
     # On Travis-CI 636,524
+    # On Travis-CI 287_288
 }
 
 subtest {
@@ -65,7 +66,7 @@ subtest {
     # Memory diff is 8,440 on This is Rakudo version 2017.07 built on MoarVM version 2017.07 on OSX
     # Subsequent runs showed much lower memory change
     # Without the capturing () it only grew by 224 bytes
-    # On Travis-CI 
+    # On Travis-CI 124 bytes
 }
 
 
