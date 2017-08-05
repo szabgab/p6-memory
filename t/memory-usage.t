@@ -16,6 +16,7 @@ sub get_memory() {
 }
 
 
+# Sanity (selftest)
 subtest {
     plan 5;
 
@@ -34,7 +35,7 @@ subtest {
     # On Travis-CI 376,920  (another run)
 }
 
-
+# Sanity (selftest)
 subtest {
     plan 1;
 
@@ -52,6 +53,7 @@ subtest {
     # On Travis-CI 287_288
 }
 
+# Regex
 subtest {
     plan 1;
 
