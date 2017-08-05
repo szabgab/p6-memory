@@ -4,3 +4,5 @@ Try to find memory leaks in Rakudo Perl 6 and in Perl 6 modules.
 
 See https://github.com/Bailador/Bailador/issues/210
 
+Another way to measure memory usage would be to use Linux::Proc::Statm
+
