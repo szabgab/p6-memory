@@ -2,7 +2,7 @@ use v6;
 use Test;
 use Memory;
 
-plan 1;
+plan 2;
 
 # Sanity (selftest)
 subtest {
@@ -16,8 +16,25 @@ subtest {
     like $change<rss>.Str, rx/^\d+$/;
 
     diag "Memory diff is {$change.perl}";
+    ok  $change<vsz> < 300_000, "Memory grows by less than ..." or diag "Memory diff is {$change.perl}";
+    # Memory diff is 65,900 on This is Rakudo version 2017.07 built on MoarVM version 2017.07 on OSX
+    # On Travis-CI  294,992
+}
+
+
+subtest {
+    plan 1;
+
+    start();
+    for 0..20 {
+        my $out = qx{ls -l};
+    }
+    my $change = end();
+
+    diag "Memory diff is {$change.perl}";
     ok  $change<vsz> < 60_000, "Memory grows by less than ..." or diag "Memory diff is {$change.perl}";
-    # Memory diff is 57056 on This is Rakudo version 2017.07 built on MoarVM version 2017.07 on OSX
+    # Memory diff is 53,872 on This is Rakudo version 2017.07 built on MoarVM version 2017.07 on OSX
     # On Travis-CI 
 }
+
 

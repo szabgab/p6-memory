@@ -33,6 +33,7 @@ subtest {
     # Memory diff is 56164 on This is Rakudo version 2017.07 built on MoarVM version 2017.07 on OSX
     # On Travis-CI 155,724
     # On Travis-CI 376,920  (another run)
+    # On Travis-CI 450,652
 }
 
 # Sanity (selftest)
